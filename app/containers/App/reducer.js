@@ -15,34 +15,35 @@ import {
   LOAD_REPOS,
   LOAD_REPOS_ERROR,
 } from './constants';
-import { fromJS } from 'immutable';
+
+import update from 'react-addons-update';
 
 // The initial state of the App
-const initialState = fromJS({
+const initialState = {
   loading: false,
   error: false,
   currentUser: false,
-  userData: fromJS({
+  userData: {
     repositories: false,
-  }),
-});
+  },
+};
 
 function appReducer(state = initialState, action) {
   switch (action.type) {
     case LOAD_REPOS:
-      return state
-        .set('loading', true)
-        .set('error', false)
-        .setIn(['userData', 'repositories'], false);
+      return update(state, {
+        loading: { $set: true },
+        error: { $set: false },
+        userData: { repositories: { $set: false } },
+      });
     case LOAD_REPOS_SUCCESS:
-      return state
-        .setIn(['userData', 'repositories'], action.repos)
-        .set('loading', false)
-        .set('currentUser', action.username);
+      return update(state, {
+        loading: { $set: false },
+        currentUser: { $set: action.username },
+        userData: { repositories: { $set: action.repos } },
+      });
     case LOAD_REPOS_ERROR:
-      return state
-        .set('error', action.error)
-        .set('loading', false);
+      return { ...state, loading: false, error: action.error };
     default:
       return state;
   }

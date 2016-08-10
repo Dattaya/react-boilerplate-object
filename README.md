@@ -43,7 +43,8 @@
 <br />
 
 <div align="center">
-  <sub>Made with ❤︎ by <a href="https://twitter.com/mxstbr">Max Stoiber</a> and <a href="https://github.com/mxstbr/react-boilerplate/graphs/contributors">contributors</a>. <i>If you're using this boilerplate, we'd love to <a href="https://github.com/mxstbr/react-boilerplate/issues/115">hear from you</a>!</i></sub>
+  <p><sub>Made with ❤︎ by <a href="https://twitter.com/mxstbr">Max Stoiber</a> and <a href="https://github.com/mxstbr/react-boilerplate/graphs/contributors">contributors</a>. <i>If you're using this boilerplate, we'd love to <a href="https://github.com/mxstbr/react-boilerplate/issues/115">hear from you</a>!</i></sub></p>
+  <p><sub>This repository is a copy of <a href="https://github.com/mxstbr/react-boilerplate">mxstbr/react-boilerplate</a> with the only difference—<a href="https://github.com/facebook/immutable-js">immutable.js</a> was removed</sub></p>
 </div>
 
 ## Features

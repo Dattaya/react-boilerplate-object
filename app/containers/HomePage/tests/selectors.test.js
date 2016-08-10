@@ -1,4 +1,3 @@
-import { fromJS } from 'immutable';
 import expect from 'expect';
 
 import {
@@ -9,12 +8,12 @@ import {
 describe('selectHome', () => {
   const homeSelector = selectHome();
   it('should select the home state', () => {
-    const homeState = fromJS({
+    const homeState = {
       userData: {},
-    });
-    const mockedState = fromJS({
+    };
+    const mockedState = {
       home: homeState,
-    });
+    };
     expect(homeSelector(mockedState)).toEqual(homeState);
   });
 });
@@ -23,11 +22,11 @@ describe('selectUsername', () => {
   const usernameSelector = selectUsername();
   it('should select the username', () => {
     const username = 'mxstbr';
-    const mockedState = fromJS({
+    const mockedState = {
       home: {
         username,
       },
-    });
+    };
     expect(usernameSelector(mockedState)).toEqual(username);
   });
 });
