@@ -22,3 +22,13 @@ const history = syncHistoryWithStore(browserHistory, store, {
   selectLocationState: (state) => state.get('route').toJS(),
 });
 ```
+## Removing `redux-rezee`
+
+Remove it from `package.json` and delete these lines from `app/store.js`:
+
+```js
+if (process.env.NODE_ENV !== 'production') {
+  const freeze = require('redux-freeze'); // eslint-disable-line global-require
+  middlewares.push(freeze);
+}
+```
