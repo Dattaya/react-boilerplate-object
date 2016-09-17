@@ -17,12 +17,12 @@ module.exports = require('./webpack.base.babel')({
     chunkFilename: '[name].[chunkhash].chunk.js',
   },
 
-  // We use ExtractTextPlugin so we get a seperate CSS file instead
+  // We use ExtractTextPlugin so we get a separate CSS file instead
   // of the CSS being in the JS and injected as a style tag
-  cssLoaders: ExtractTextPlugin.extract(
-    'style-loader',
-    'css-loader?modules&-autoprefixer&importLoaders=1!postcss-loader'
-  ),
+  cssLoaders: ExtractTextPlugin.extract({
+    fallbackLoader: 'style-loader',
+    loader: 'css-loader?modules&-autoprefixer&importLoaders=1!postcss-loader',
+  }),
 
   plugins: [
     new webpack.optimize.CommonsChunkPlugin({
@@ -64,7 +64,7 @@ module.exports = require('./webpack.base.babel')({
       inject: true,
     }),
 
-    // Extract the CSS into a seperate file
+    // Extract the CSS into a separate file
     new ExtractTextPlugin('[name].[contenthash].css'),
 
     // Put it in the end to capture all the HtmlWebpackPlugin's
