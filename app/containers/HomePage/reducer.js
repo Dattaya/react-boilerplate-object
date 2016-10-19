@@ -25,6 +25,7 @@ function homeReducer(state = initialState, action) {
 
       // Delete prefixed '@' from the github username
       return { ...state, username: action.name.replace(/@/gi, '') };
+
     default:
       return state;
   }

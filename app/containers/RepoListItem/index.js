@@ -19,12 +19,17 @@ import styles from './styles.css';
 export class RepoListItem extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
     const item = this.props.item;
+
+    if (!item) {
+      return null;
+    }
+
     let nameprefix = '';
 
     // If the repository is owned by a different person than we got the data for
     // it's a fork and we should show the name of the owner
-    if (item.owner.login !== this.props.currentUser) {
-      nameprefix = `${item.owner.login}/`;
+    if (item.login.toLowerCase() !== this.props.currentUser.toLowerCase()) {
+      nameprefix = `${item.login}/`;
     }
 
     // Put together the content of the repository
@@ -32,25 +37,25 @@ export class RepoListItem extends React.Component { // eslint-disable-line react
       <div className={styles.linkWrapper}>
         <A
           className={styles.linkRepo}
-          href={item.html_url}
+          href={item.htmlUrl}
           target="_blank"
         >
           {nameprefix + item.name}
         </A>
         <A
           className={styles.linkIssues}
-          href={`${item.html_url}/issues`}
+          href={`${item.htmlUrl}/issues`}
           target="_blank"
         >
           <IssueIcon className={styles.issueIcon} />
-          <FormattedNumber value={item.open_issues_count} />
+          <FormattedNumber value={item.openIssuesCount} />
         </A>
       </div>
     );
 
     // Render the content into a list item
     return (
-      <ListItem key={`repo-list-item-${item.full_name}`} item={content} />
+      <ListItem key={`repo-list-item-${item.fullName}`} item={content} />
     );
   }
 }
@@ -58,6 +63,10 @@ export class RepoListItem extends React.Component { // eslint-disable-line react
 RepoListItem.propTypes = {
   item: React.PropTypes.object,
   currentUser: React.PropTypes.string,
+};
+
+RepoListItem.defaultProps = {
+  currentUser: '',
 };
 
 export default connect(createSelector(

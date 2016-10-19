@@ -1,53 +1,23 @@
 import expect from 'expect';
 
 import {
-  LOAD_REPOS,
-  LOAD_REPOS_SUCCESS,
-  LOAD_REPOS_ERROR,
+  SET_CURRENT_USER,
 } from '../constants';
 
 import {
-  loadRepos,
-  reposLoaded,
-  repoLoadingError,
+  setCurrentUser,
 } from '../actions';
 
 describe('App Actions', () => {
-  describe('loadRepos', () => {
-    it('should return the correct type', () => {
+  describe('setCurrentUser', () => {
+    it('should return the correct type and the passed username', () => {
+      const user = 'test';
       const expectedResult = {
-        type: LOAD_REPOS,
+        type: SET_CURRENT_USER,
+        user,
       };
 
-      expect(loadRepos()).toEqual(expectedResult);
-    });
-  });
-
-  describe('reposLoaded', () => {
-    it('should return the correct type and the passed repos', () => {
-      const fixture = ['Test'];
-      const username = 'test';
-      const expectedResult = {
-        type: LOAD_REPOS_SUCCESS,
-        repos: fixture,
-        username,
-      };
-
-      expect(reposLoaded(fixture, username)).toEqual(expectedResult);
-    });
-  });
-
-  describe('repoLoadingError', () => {
-    it('should return the correct type and the error', () => {
-      const fixture = {
-        msg: 'Something went wrong!',
-      };
-      const expectedResult = {
-        type: LOAD_REPOS_ERROR,
-        error: fixture,
-      };
-
-      expect(repoLoadingError(fixture)).toEqual(expectedResult);
+      expect(setCurrentUser(user)).toEqual(expectedResult);
     });
   });
 });

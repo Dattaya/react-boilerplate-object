@@ -5,7 +5,7 @@ var exec = require('child_process').exec;
 var path = require('path');
 var fs   = require('fs');
 var animateProgress = require('./helpers/progress');
-var addCheckMark = require('./helpers/checkmark');
+var mark = require('./helpers/mark');
 var readline = require('readline');
 
 process.stdin.resume();
@@ -48,14 +48,14 @@ cleanRepo(function () {
  */
 function cleanRepo(callback) {
   shell.rm('-rf', '.git/');
-  addCheckMark(callback);
+  mark.addCheckMark(callback);
 }
 
 /**
  * Initializes git again
  */
 function initGit(callback) {
-  exec('git init && git add . && git commit -m "Initial commit"', addCheckMark.bind(null, callback));
+  exec('git init && git add . && git commit -m "Initial commit"', mark.addCheckMark.bind(null, callback));
 }
 
 /**
@@ -69,5 +69,5 @@ function deleteFileInCurrentDir(file, callback) {
  * Installs dependencies
  */
 function installDeps(callback) {
-  exec('npm install', addCheckMark.bind(null, callback));
+  exec('npm install', mark.addCheckMark.bind(null, callback));
 }

@@ -8,22 +8,16 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import Helmet from 'react-helmet';
+import gql from 'graphql-tag';
+import { graphql } from 'react-apollo';
 
 import messages from './messages';
 import { createStructuredSelector } from 'reselect';
 
-import {
-  selectRepos,
-  selectLoading,
-  selectError,
-} from 'containers/App/selectors';
-
-import {
-  selectUsername,
-} from './selectors';
-
+import { selectCurrentUser } from 'containers/App/selectors';
+import { setCurrentUser } from 'containers/App/actions';
+import { selectUsername } from './selectors';
 import { changeUsername } from './actions';
-import { loadRepos } from '../App/actions';
 
 import { FormattedMessage } from 'react-intl';
 import RepoListItem from 'containers/RepoListItem';
@@ -41,16 +35,16 @@ export class HomePage extends React.Component {
    */
   componentDidMount() {
     if (this.props.username && this.props.username.trim().length > 0) {
-      this.props.onSubmitForm();
+      this.onSubmitForm();
     }
   }
+
   /**
-   * Changes the route
-   *
-   * @param  {string} route The route we want to go to
+   * Change current username when the form has been submitted
    */
-  openRoute = (route) => {
-    this.props.changeRoute(route);
+  onSubmitForm = (evt) => {
+    if (evt !== undefined && evt.preventDefault) evt.preventDefault();
+    this.props.setCurrentUser(this.props.username);
   };
 
   /**
@@ -60,23 +54,34 @@ export class HomePage extends React.Component {
     this.openRoute('/features');
   };
 
+  /**
+   * Changes the route
+   *
+   * @param  {string} route The route we want to go to
+   */
+  openRoute = (route) => {
+    this.props.changeRoute(route);
+  };
+
   render() {
     let mainContent = null;
 
+    const { loading, repos, error } = this.props.data;
+
     // Show a loading indicator when we're loading
-    if (this.props.loading) {
+    if (loading) {
       mainContent = (<List component={LoadingIndicator} />);
 
     // Show an error if there is one
-    } else if (this.props.error !== false) {
+    } else if (error !== null) {
       const ErrorComponent = () => (
         <ListItem item={'Something went wrong, please try again!'} />
       );
       mainContent = (<List component={ErrorComponent} />);
 
     // If we're not loading, don't have an error and there are repos, show the repos
-    } else if (this.props.repos !== false) {
-      mainContent = (<List items={this.props.repos} component={RepoListItem} />);
+    } else if (repos !== null) {
+      mainContent = (<List items={repos} component={RepoListItem} />);
     }
 
     return (
@@ -100,7 +105,7 @@ export class HomePage extends React.Component {
             <H2>
               <FormattedMessage {...messages.trymeHeader} />
             </H2>
-            <form className={styles.usernameForm} onSubmit={this.props.onSubmitForm}>
+            <form className={styles.usernameForm} onSubmit={this.onSubmitForm}>
               <label htmlFor="username">
                 <FormattedMessage {...messages.trymeMessage} />
                 <span className={styles.atPrefix}>
@@ -129,39 +134,45 @@ export class HomePage extends React.Component {
 
 HomePage.propTypes = {
   changeRoute: React.PropTypes.func,
-  loading: React.PropTypes.bool,
-  error: React.PropTypes.oneOfType([
-    React.PropTypes.object,
-    React.PropTypes.bool,
-  ]),
-  repos: React.PropTypes.oneOfType([
-    React.PropTypes.array,
-    React.PropTypes.bool,
-  ]),
-  onSubmitForm: React.PropTypes.func,
+  data: React.PropTypes.shape({
+    loading: React.PropTypes.bool,
+    error: React.PropTypes.object,
+    repos: React.PropTypes.array,
+  }),
   username: React.PropTypes.string,
   onChangeUsername: React.PropTypes.func,
+  setCurrentUser: React.PropTypes.func,
 };
+
+const query = gql`
+  query Repos($login: String) {
+    repos(login: $login) {
+      name
+      login
+      fullName
+      htmlUrl
+      openIssuesCount
+    }
+}`;
+
+const HomePageWithData = graphql(query, {
+  options: ({ login }) => ({ variables: { login }, noFetch: !login }),
+}
+)(HomePage);
 
 export function mapDispatchToProps(dispatch) {
   return {
     onChangeUsername: (evt) => dispatch(changeUsername(evt.target.value)),
     changeRoute: (url) => dispatch(push(url)),
-    onSubmitForm: (evt) => {
-      if (evt !== undefined && evt.preventDefault) evt.preventDefault();
-      dispatch(loadRepos());
-    },
-
+    setCurrentUser: (user) => dispatch(setCurrentUser(user)),
     dispatch,
   };
 }
 
 const mapStateToProps = createStructuredSelector({
-  repos: selectRepos(),
   username: selectUsername(),
-  loading: selectLoading(),
-  error: selectError(),
+  login: selectCurrentUser(),
 });
 
 // Wrap the component to inject dispatch and state into it
-export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
+export default connect(mapStateToProps, mapDispatchToProps)(HomePageWithData);

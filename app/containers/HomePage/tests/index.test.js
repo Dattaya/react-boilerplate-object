@@ -9,7 +9,6 @@ import React from 'react';
 import { IntlProvider } from 'react-intl';
 import { HomePage, mapDispatchToProps } from '../index';
 import { changeUsername } from '../actions';
-import { loadRepos } from '../../App/actions';
 import { push } from 'react-router-redux';
 import RepoListItem from 'containers/RepoListItem';
 import List from 'components/List';
@@ -18,7 +17,7 @@ import LoadingIndicator from 'components/LoadingIndicator';
 describe('<HomePage />', () => {
   it('should render the loading indicator when its loading', () => {
     const renderedComponent = shallow(
-      <HomePage loading />
+      <HomePage data={{ loading: true }} />
     );
     expect(renderedComponent.contains(<List component={LoadingIndicator} />)).toEqual(true);
   });
@@ -27,8 +26,11 @@ describe('<HomePage />', () => {
     const renderedComponent = mount(
       <IntlProvider locale="en">
         <HomePage
-          loading={false}
-          error={{ message: 'Loading failed!' }}
+          data={{
+            loading: false,
+            error: { message: 'Loading failed!' },
+          }}
+
         />
       </IntlProvider>
     );
@@ -40,34 +42,30 @@ describe('<HomePage />', () => {
   });
 
   it('should render fetch the repos on mount if a username exists', () => {
-    const submitSpy = expect.createSpy();
+    const setCurrentUserSpy = expect.createSpy();
     mount(
       <IntlProvider locale="en">
         <HomePage
           username="Not Empty"
           onChangeUsername={() => {}}
-          onSubmitForm={submitSpy}
+          setCurrentUser={setCurrentUserSpy}
+          data={{}}
         />
       </IntlProvider>
     );
-    expect(submitSpy).toHaveBeenCalled();
+    expect(setCurrentUserSpy).toHaveBeenCalled();
   });
 
   it('should render the repositories if loading was successful', () => {
     const repos = [{
-      owner: {
-        login: 'mxstbr',
-      },
-      html_url: 'https://github.com/mxstbr/react-boilerplate',
+      login: 'mxstbr',
+      htmlUrl: 'https://github.com/mxstbr/react-boilerplate',
       name: 'react-boilerplate',
-      open_issues_count: 20,
-      full_name: 'mxstbr/react-boilerplate',
+      openIssuesCount: 20,
+      fullName: 'mxstbr/react-boilerplate',
     }];
     const renderedComponent = shallow(
-      <HomePage
-        repos={repos}
-        error={false}
-      />
+      <HomePage data={{ repos, error: null }} />
     );
 
     expect(renderedComponent.contains(<List items={repos} component={RepoListItem} />)).toEqual(true);
@@ -85,7 +83,7 @@ describe('<HomePage />', () => {
 
     const renderedComponent = mount(
       <IntlProvider locale="en">
-        <HomePage loading changeRoute={openRoute} />
+        <HomePage loading changeRoute={openRoute} data={{}} />
       </IntlProvider>
     );
     const button = renderedComponent.find('button');
@@ -124,29 +122,6 @@ describe('<HomePage />', () => {
       const route = '/';
       result.changeRoute(route);
       expect(dispatch).toHaveBeenCalledWith(push(route));
-    });
-  });
-
-  describe('onSubmitForm', () => {
-    it('should be injected', () => {
-      const dispatch = expect.createSpy();
-      const result = mapDispatchToProps(dispatch);
-      expect(result.onSubmitForm).toExist();
-    });
-
-    it('should dispatch loadRepos when called', () => {
-      const dispatch = expect.createSpy();
-      const result = mapDispatchToProps(dispatch);
-      result.onSubmitForm();
-      expect(dispatch).toHaveBeenCalledWith(loadRepos());
-    });
-
-    it('should preventDefault if called with event', () => {
-      const preventDefault = expect.createSpy();
-      const result = mapDispatchToProps(() => {});
-      const evt = { preventDefault };
-      result.onSubmitForm(evt);
-      expect(preventDefault).toHaveBeenCalledWith();
     });
   });
 });

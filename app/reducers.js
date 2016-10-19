@@ -8,6 +8,7 @@ import { routerReducer } from 'react-router-redux';
 
 import globalReducer from 'containers/App/reducer';
 import languageProviderReducer from 'containers/LanguageProvider/reducer';
+import apolloClient from 'apolloClient';
 
 /**
  * Creates the main reducer with the asynchronously loaded ones
@@ -17,6 +18,7 @@ export default function createReducer(asyncReducers) {
     routing: routerReducer,
     global: globalReducer,
     language: languageProviderReducer,
+    apollo: apolloClient.reducer(),
     ...asyncReducers,
   });
 }

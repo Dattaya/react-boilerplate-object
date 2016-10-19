@@ -8,7 +8,7 @@ const nodeGlob = require('glob');
 const transform = require('babel-core').transform;
 
 const animateProgress = require('./helpers/progress');
-const addCheckmark = require('./helpers/checkmark');
+const mark = require('./helpers/mark');
 
 const pkg = require('../../package.json');
 const i18n = require('../../app/i18n');
@@ -32,7 +32,7 @@ const task = (message) => {
       process.stderr.write(error);
     }
     clearTimeout(progress);
-    return addCheckmark(() => newLine());
+    return mark.addCheckmark(() => newLine());
   }
 }
 

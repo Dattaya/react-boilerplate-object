@@ -8,12 +8,13 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { browserHistory } from 'react-router';
 import { translationMessages } from '../../../i18n';
+import apolloClient from 'apolloClient';
 
 describe('<LanguageProvider />', () => {
   let store;
 
   before(() => {
-    store = configureStore({}, browserHistory);
+    store = configureStore({}, browserHistory, apolloClient);
   });
 
   it('should render the default language messages', () => {

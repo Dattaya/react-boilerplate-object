@@ -11,25 +11,7 @@ const selectCurrentUser = () => createSelector(
   (globalState) => globalState.currentUser
 );
 
-const selectLoading = () => createSelector(
-  selectGlobal(),
-  (globalState) => globalState.loading
-);
-
-const selectError = () => createSelector(
-  selectGlobal(),
-  (globalState) => globalState.error
-);
-
-const selectRepos = () => createSelector(
-  selectGlobal(),
-  (globalState) => globalState.userData.repositories
-);
-
 export {
   selectGlobal,
   selectCurrentUser,
-  selectLoading,
-  selectError,
-  selectRepos,
 };

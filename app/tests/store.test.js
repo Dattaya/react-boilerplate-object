@@ -5,12 +5,13 @@
 import expect from 'expect';
 import configureStore from '../store';
 import { browserHistory } from 'react-router';
+import apolloClient from 'apolloClient';
 
 describe('configureStore', () => {
   let store;
 
   before(() => {
-    store = configureStore({}, browserHistory);
+    store = configureStore({}, browserHistory, apolloClient);
   });
 
   describe('asyncReducers', () => {

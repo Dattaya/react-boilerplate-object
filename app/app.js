@@ -18,12 +18,13 @@ import 'file?name=[name].[ext]!./.htaccess';
 // Import all the third party stuff
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
 import { applyRouterMiddleware, Router, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import FontFaceObserver from 'fontfaceobserver';
 import { useScroll } from 'react-router-scroll';
 import configureStore from './store';
+import { ApolloProvider } from 'react-apollo';
+import apolloClient from 'apolloClient';
 
 // Import Language Provider
 import LanguageProvider from 'containers/LanguageProvider';
@@ -48,7 +49,7 @@ import { translationMessages } from './i18n';
 // Optionally, this could be changed to leverage a created history
 // e.g. `const browserHistory = useRouterHistory(createBrowserHistory)();`
 const initialState = {};
-const store = configureStore(initialState, browserHistory);
+const store = configureStore(initialState, browserHistory, apolloClient);
 
 // If you use Redux devTools extension, since v2.0.1, they added an
 // `updateStore`, so any enhancers that change the store object
@@ -72,7 +73,7 @@ const rootRoute = {
 
 const render = (messages) => {
   ReactDOM.render(
-    <Provider store={store}>
+    <ApolloProvider store={store} client={apolloClient}>
       <LanguageProvider messages={messages}>
         <Router
           history={history}
@@ -84,7 +85,7 @@ const render = (messages) => {
           }
         />
       </LanguageProvider>
-    </Provider>,
+    </ApolloProvider>,
     document.getElementById('app')
   );
 };

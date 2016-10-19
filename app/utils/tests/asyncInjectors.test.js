@@ -6,6 +6,7 @@ import expect from 'expect';
 import configureStore from '../../store';
 import { memoryHistory } from 'react-router';
 import { put } from 'redux-saga/effects';
+import apolloClient from 'apolloClient';
 
 import {
   injectAsyncReducer,
@@ -39,7 +40,7 @@ describe('asyncInjectors', () => {
 
   describe('getAsyncInjectors', () => {
     before(() => {
-      store = configureStore({}, memoryHistory);
+      store = configureStore({}, memoryHistory, apolloClient);
     });
 
     it('given a store, should return all async injectors', () => {
@@ -71,7 +72,7 @@ describe('asyncInjectors', () => {
 
   describe('helpers', () => {
     before(() => {
-      store = configureStore({}, memoryHistory);
+      store = configureStore({}, memoryHistory, apolloClient);
     });
 
     describe('injectAsyncReducer', () => {
