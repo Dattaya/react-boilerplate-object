@@ -213,7 +213,7 @@
     ]
   },
   "dependencies": {
-    "apollo-client": "0.4.21",
+    "apollo-client": "0.4.22",
     "apollo-server": "0.3.2",
     "babel-polyfill": "6.13.0",
     "body-parser": "1.15.2",
@@ -224,7 +224,7 @@
     "express": "4.14.0",
     "fontfaceobserver": "2.0.4",
     "graphql": "0.7.2",
-    "graphql-tag": "0.1.14",
+    "graphql-tag": "0.1.15",
     "graphql-tools": "0.7.2",
     "history": "3.0.0",
     "http-proxy": "1.15.1",
@@ -236,7 +236,7 @@
     "node-fetch": "1.6.3",
     "react": "15.3.1",
     "react-addons-update": "15.3.0",
-    "react-apollo": "0.5.10",
+    "react-apollo": "0.5.13",
     "react-dom": "15.3.1",
     "react-helmet": "3.1.0",
     "react-intl": "2.1.5",
