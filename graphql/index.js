@@ -1,8 +1,8 @@
 /* eslint-disable no-console */
 
 const express = require('express');
-const apolloExpress = require('apollo-server').apolloExpress;
-const graphiqlExpress = require('apollo-server').graphiqlExpress;
+const graphqlExpress = require('graphql-server-express').graphqlExpress;
+const graphiqlExpress = require('graphql-server-express').graphiqlExpress;
 const makeExecutableSchema = require('graphql-tools').makeExecutableSchema;
 const bodyParser = require('body-parser');
 const argv = require('minimist')(process.argv.slice(2));
@@ -23,7 +23,7 @@ app.use('/ide', graphiqlExpress({
   endpointURL: '/graphql',
 }));
 
-app.use('/', bodyParser.json(), apolloExpress({
+app.use('/', bodyParser.json(), graphqlExpress({
   schema: executableSchema,
 }));
 
