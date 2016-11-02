@@ -16,7 +16,7 @@ import {
   LOAD_REPOS_ERROR,
 } from './constants';
 
-import update from 'react-addons-update';
+import update from 'immutability-helper';
 
 // The initial state of the App
 const initialState = {
