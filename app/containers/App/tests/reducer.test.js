@@ -1,5 +1,5 @@
 import expect from 'expect';
-import update from 'react-addons-update';
+import update from 'immutability-helper';
 import appReducer from '../reducer';
 import {
   setCurrentUser,
