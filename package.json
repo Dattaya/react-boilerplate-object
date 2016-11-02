@@ -245,7 +245,6 @@
     "react-router-redux": "4.0.5",
     "react-router-scroll": "0.3.2",
     "redux": "3.6.0",
-    "redux-immutable": "3.0.8",
     "redux-saga": "0.11.1",
     "reselect": "2.5.4",
     "sanitize.css": "4.1.0",
