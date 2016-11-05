@@ -7,16 +7,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
-
 import { FormattedNumber } from 'react-intl';
-import { selectCurrentUser } from 'containers/App/selectors';
+
+import IssueIcon from './IssueIcon';
+import IssueLink from './IssueLink';
 import ListItem from 'components/ListItem';
-import IssueIcon from 'components/IssueIcon';
-import A from 'components/A';
+import RepoLink from './RepoLink';
+import Wrapper from './Wrapper';
+import { selectCurrentUser } from 'containers/App/selectors';
 
-import styles from './styles.css';
-
-export class RepoListItem extends React.Component { // eslint-disable-line react/prefer-stateless-function
+export class RepoListItem extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   render() {
     const item = this.props.item;
 
@@ -34,23 +34,15 @@ export class RepoListItem extends React.Component { // eslint-disable-line react
 
     // Put together the content of the repository
     const content = (
-      <div className={styles.linkWrapper}>
-        <A
-          className={styles.linkRepo}
-          href={item.htmlUrl}
-          target="_blank"
-        >
+      <Wrapper>
+        <RepoLink href={item.htmlUrl} target="_blank">
           {nameprefix + item.name}
-        </A>
-        <A
-          className={styles.linkIssues}
-          href={`${item.htmlUrl}/issues`}
-          target="_blank"
-        >
-          <IssueIcon className={styles.issueIcon} />
+        </RepoLink>
+        <IssueLink href={`${item.htmlUrl}/issues`} target="_blank">
+          <IssueIcon />
           <FormattedNumber value={item.openIssuesCount} />
-        </A>
-      </div>
+        </IssueLink>
+      </Wrapper>
     );
 
     // Render the content into a list item

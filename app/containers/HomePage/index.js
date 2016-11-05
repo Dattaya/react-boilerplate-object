@@ -5,31 +5,35 @@
  */
 
 import React from 'react';
-import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
 import Helmet from 'react-helmet';
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 
-import messages from './messages';
 import { createStructuredSelector } from 'reselect';
 
-import { selectCurrentUser } from 'containers/App/selectors';
 import { setCurrentUser } from 'containers/App/actions';
 import { selectUsername } from './selectors';
 import { changeUsername } from './actions';
 
 import { FormattedMessage } from 'react-intl';
-import RepoListItem from 'containers/RepoListItem';
-import Button from 'components/Button';
+import { connect } from 'react-redux';
+
+import AtPrefix from './AtPrefix';
+import CenteredSection from './CenteredSection';
+import Form from './Form';
 import H2 from 'components/H2';
+import Input from './Input';
 import List from 'components/List';
 import ListItem from 'components/ListItem';
 import LoadingIndicator from 'components/LoadingIndicator';
+import RepoListItem from 'containers/RepoListItem';
+import Section from './Section';
+import messages from './messages';
+import {
+  selectCurrentUser,
+} from 'containers/App/selectors';
 
-import styles from './styles.css';
-
-export class HomePage extends React.Component {
+export class HomePage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   /**
    * when initial state username is not null, submit the form to load repos
    */
@@ -45,22 +49,6 @@ export class HomePage extends React.Component {
   onSubmitForm = (evt) => {
     if (evt !== undefined && evt.preventDefault) evt.preventDefault();
     this.props.setCurrentUser(this.props.username);
-  };
-
-  /**
-   * Changed route to '/features'
-   */
-  openFeaturesPage = () => {
-    this.openRoute('/features');
-  };
-
-  /**
-   * Changes the route
-   *
-   * @param  {string} route The route we want to go to
-   */
-  openRoute = (route) => {
-    this.props.changeRoute(route);
   };
 
   render() {
@@ -93,39 +81,35 @@ export class HomePage extends React.Component {
           ]}
         />
         <div>
-          <section className={`${styles.textSection} ${styles.centered}`}>
+          <CenteredSection>
             <H2>
               <FormattedMessage {...messages.startProjectHeader} />
             </H2>
             <p>
               <FormattedMessage {...messages.startProjectMessage} />
             </p>
-          </section>
-          <section className={styles.textSection}>
+          </CenteredSection>
+          <Section>
             <H2>
               <FormattedMessage {...messages.trymeHeader} />
             </H2>
-            <form className={styles.usernameForm} onSubmit={this.onSubmitForm}>
+            <Form onSubmit={this.onSubmitForm}>
               <label htmlFor="username">
                 <FormattedMessage {...messages.trymeMessage} />
-                <span className={styles.atPrefix}>
+                <AtPrefix>
                   <FormattedMessage {...messages.trymeAtPrefix} />
-                </span>
-                <input
+                </AtPrefix>
+                <Input
                   id="username"
-                  className={styles.input}
                   type="text"
                   placeholder="mxstbr"
                   value={this.props.username}
                   onChange={this.props.onChangeUsername}
                 />
               </label>
-            </form>
+            </Form>
             {mainContent}
-          </section>
-          <Button handleRoute={this.openFeaturesPage}>
-            <FormattedMessage {...messages.featuresButton} />
-          </Button>
+          </Section>
         </div>
       </article>
     );
@@ -133,7 +117,6 @@ export class HomePage extends React.Component {
 }
 
 HomePage.propTypes = {
-  changeRoute: React.PropTypes.func,
   data: React.PropTypes.shape({
     loading: React.PropTypes.bool,
     error: React.PropTypes.object,
@@ -163,7 +146,6 @@ const HomePageWithData = graphql(query, {
 export function mapDispatchToProps(dispatch) {
   return {
     onChangeUsername: (evt) => dispatch(changeUsername(evt.target.value)),
-    changeRoute: (url) => dispatch(push(url)),
     setCurrentUser: (user) => dispatch(setCurrentUser(user)),
     dispatch,
   };

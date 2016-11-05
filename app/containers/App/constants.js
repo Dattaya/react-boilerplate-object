@@ -10,3 +10,4 @@
  */
 
 export const SET_CURRENT_USER = 'boilerplate/Home/SET_CURRENT_USER';
+export const DEFAULT_LOCALE = 'en';
