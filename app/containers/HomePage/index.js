@@ -61,7 +61,7 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
       mainContent = (<List component={LoadingIndicator} />);
 
     // Show an error if there is one
-    } else if (error !== null) {
+    } else if (error) {
       const ErrorComponent = () => (
         <ListItem item={'Something went wrong, please try again!'} />
       );
