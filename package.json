@@ -267,6 +267,7 @@
     "plop": "1.5.0",
     "pre-commit": "1.1.3",
     "psi": "2.0.4",
+    "react-addons-test-utils": "15.3.2",
     "redux-freeze": "0.1.5",
     "rimraf": "2.5.4",
     "shelljs": "0.7.5",
