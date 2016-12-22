@@ -138,12 +138,12 @@ const query = gql`
       htmlUrl
       openIssuesCount
     }
-}`;
+  }
+`;
 
-const HomePageWithData = graphql(query, {
+const withData = graphql(query, {
   options: ({ login }) => ({ variables: { login }, noFetch: !login }),
-}
-)(HomePage);
+});
 
 export function mapDispatchToProps(dispatch) {
   return {
@@ -159,4 +159,4 @@ const mapStateToProps = createStructuredSelector({
 });
 
 // Wrap the component to inject dispatch and state into it
-export default connect(mapStateToProps, mapDispatchToProps)(HomePageWithData);
+export default connect(mapStateToProps, mapDispatchToProps)(withData(HomePage));
