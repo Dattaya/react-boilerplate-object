@@ -32,6 +32,7 @@ import messages from './messages';
 import {
   selectCurrentUser,
 } from 'containers/App/selectors';
+import Clock from 'containers/Clock';
 
 export class HomePage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   /**
@@ -93,6 +94,7 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
             <H2>
               <FormattedMessage {...messages.trymeHeader} />
             </H2>
+            <Clock />
             <Form onSubmit={this.onSubmitForm}>
               <label htmlFor="username">
                 <FormattedMessage {...messages.trymeMessage} />

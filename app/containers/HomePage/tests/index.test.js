@@ -22,6 +22,7 @@ describe('<HomePage />', () => {
   });
 
   it('should render an error if loading failed', () => {
+    // TODO Fix test
     const renderedComponent = mount(
       <IntlProvider locale="en">
         <HomePage
@@ -41,6 +42,7 @@ describe('<HomePage />', () => {
   });
 
   it('should render fetch the repos on mount if a username exists', () => {
+    // TODO Fix test
     const setCurrentUserSpy = expect.createSpy();
     mount(
       <IntlProvider locale="en">

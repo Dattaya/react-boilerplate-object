@@ -5,6 +5,8 @@ const ip = require('ip');
 
 const divider = chalk.gray('\n-----------------------------------');
 
+const prettyStringify = (data) => JSON.stringify(data, null, 2);
+
 /**
  * Logger middleware, you can customize it to make messages more personal
  */
@@ -12,7 +14,7 @@ const logger = {
 
   // Called whenever there's an error on the server we want to print
   error: (err) => {
-    console.error(chalk.red(err));
+    console.error(chalk.red(prettyStringify(err)));
   },
 
   // Called when express.js app starts on given port w/o errors

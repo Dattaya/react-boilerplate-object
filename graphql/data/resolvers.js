@@ -8,6 +8,14 @@ const resolveFunctions = {
       }
       return Promise.resolve([]);
     },
+    time() {
+      return Date.now();
+    },
+  },
+  RootSubscription: {
+    freshTime(time) {
+      return time;
+    },
   },
   Repo: {
     fullName(repo) {

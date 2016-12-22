@@ -11,12 +11,18 @@ type Repo {
 # the schema allows the following two queries:
 type RootQuery {
   repos(login: String): [Repo]
+  time: Float!
+}
+
+type RootSubscription {
+  freshTime: Float!
 }
 
 # we need to tell the server which types represent the root query
 # and root mutation types. We call them RootQuery and RootMutation by convention.
 schema {
   query: RootQuery
+  subscription: RootSubscription
 }
 `;
 
