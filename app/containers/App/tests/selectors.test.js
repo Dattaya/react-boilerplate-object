@@ -1,26 +1,23 @@
-import expect from 'expect';
-
 import {
   selectGlobal,
-  selectCurrentUser,
-  selectLoading,
-  selectError,
-  selectRepos,
+  makeSelectCurrentUser,
+  makeSelectLoading,
+  makeSelectError,
+  makeSelectRepos,
 } from '../selectors';
 
 describe('selectGlobal', () => {
-  const globalSelector = selectGlobal();
   it('should select the global state', () => {
     const globalState = {};
     const mockedState = {
       global: globalState,
     };
-    expect(globalSelector(mockedState)).toEqual(globalState);
+    expect(selectGlobal(mockedState)).toEqual(globalState);
   });
 });
 
-describe('selectCurrentUser', () => {
-  const currentUserSelector = selectCurrentUser();
+describe('makeSelectCurrentUser', () => {
+  const currentUserSelector = makeSelectCurrentUser();
   it('should select the current user', () => {
     const username = 'mxstbr';
     const mockedState = {
@@ -32,8 +29,8 @@ describe('selectCurrentUser', () => {
   });
 });
 
-describe('selectLoading', () => {
-  const loadingSelector = selectLoading();
+describe('makeSelectLoading', () => {
+  const loadingSelector = makeSelectLoading();
   it('should select the loading', () => {
     const loading = false;
     const mockedState = {
@@ -45,8 +42,8 @@ describe('selectLoading', () => {
   });
 });
 
-describe('selectError', () => {
-  const errorSelector = selectError();
+describe('makeSelectError', () => {
+  const errorSelector = makeSelectError();
   it('should select the error', () => {
     const error = 404;
     const mockedState = {
@@ -58,8 +55,8 @@ describe('selectError', () => {
   });
 });
 
-describe('selectRepos', () => {
-  const reposSelector = selectRepos();
+describe('makeSelectRepos', () => {
+  const reposSelector = makeSelectRepos();
   it('should select the repos', () => {
     const repositories = [];
     const mockedState = {

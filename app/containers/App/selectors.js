@@ -4,32 +4,32 @@
 
 import { createSelector } from 'reselect';
 
-const selectGlobal = () => (state) => state.global;
+const selectGlobal = (state) => state.global;
 
-const selectCurrentUser = () => createSelector(
-  selectGlobal(),
+const makeSelectCurrentUser = () => createSelector(
+  selectGlobal,
   (globalState) => globalState.currentUser
 );
 
-const selectLoading = () => createSelector(
-  selectGlobal(),
+const makeSelectLoading = () => createSelector(
+  selectGlobal,
   (globalState) => globalState.loading
 );
 
-const selectError = () => createSelector(
-  selectGlobal(),
+const makeSelectError = () => createSelector(
+  selectGlobal,
   (globalState) => globalState.error
 );
 
-const selectRepos = () => createSelector(
-  selectGlobal(),
+const makeSelectRepos = () => createSelector(
+  selectGlobal,
   (globalState) => globalState.userData.repositories
 );
 
 export {
   selectGlobal,
-  selectCurrentUser,
-  selectLoading,
-  selectError,
-  selectRepos,
+  makeSelectCurrentUser,
+  makeSelectLoading,
+  makeSelectError,
+  makeSelectRepos,
 };

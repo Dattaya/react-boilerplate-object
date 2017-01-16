@@ -10,13 +10,13 @@
  *   return state.set('yourStateVariable', true);
  */
 
+import update from 'immutability-helper';
+
 import {
   LOAD_REPOS_SUCCESS,
   LOAD_REPOS,
   LOAD_REPOS_ERROR,
 } from './constants';
-
-import update from 'immutability-helper';
 
 // The initial state of the App
 const initialState = {

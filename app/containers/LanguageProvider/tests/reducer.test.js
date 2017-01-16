@@ -1,4 +1,3 @@
-import expect from 'expect';
 import languageProviderReducer from '../reducer';
 import {
   CHANGE_LOCALE,
