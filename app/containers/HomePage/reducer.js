@@ -9,7 +9,6 @@
  * case YOUR_ACTION_CONSTANT:
  *   return state.set('yourStateVariable', true);
  */
-
 import {
   CHANGE_USERNAME,
 } from './constants';

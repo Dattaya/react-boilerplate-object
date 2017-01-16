@@ -1,5 +1,3 @@
-import expect from 'expect';
-
 import {
   SET_CURRENT_USER,
 } from '../constants';

@@ -24,11 +24,15 @@ setup(app, {
   publicPath: '/',
 });
 
-// get the intended port number, use port 3000 if not provided
+// get the intended host and port number, use localhost and port 3000 if not provided
+const customHost = argv.host || process.env.HOST;
+const host = customHost || null; // Let http.Server use its default IPv6/4 host
+const prettyHost = customHost || 'localhost';
+
 const port = argv.port || process.env.PORT || 3000;
 
 // Start your app.
-server.listen(port, (err) => {
+server.listen(port, host, (err) => {
   if (err) {
     return logger.error(err.message);
   }
@@ -40,9 +44,9 @@ server.listen(port, (err) => {
         return logger.error(innerErr);
       }
 
-      logger.appStarted(port, url);
+      logger.appStarted(port, prettyHost, url);
     });
   } else {
-    logger.appStarted(port);
+    logger.appStarted(port, prettyHost);
   }
 });

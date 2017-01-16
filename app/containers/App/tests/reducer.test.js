@@ -1,4 +1,3 @@
-import expect from 'expect';
 import update from 'immutability-helper';
 import appReducer from '../reducer';
 import {

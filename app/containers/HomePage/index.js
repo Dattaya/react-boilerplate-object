@@ -6,33 +6,28 @@
 
 import React from 'react';
 import Helmet from 'react-helmet';
+import { FormattedMessage } from 'react-intl';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 
-import { createStructuredSelector } from 'reselect';
-
+import H2 from 'components/H2';
+import ReposList from 'components/ReposList';
+import Clock from 'containers/Clock';
 import { setCurrentUser } from 'containers/App/actions';
-import { selectUsername } from './selectors';
+import {
+  makeSelectCurrentUser,
+} from 'containers/App/selectors';
+
+import { makeSelectUsername } from './selectors';
 import { changeUsername } from './actions';
-
-import { FormattedMessage } from 'react-intl';
-import { connect } from 'react-redux';
-
 import AtPrefix from './AtPrefix';
 import CenteredSection from './CenteredSection';
 import Form from './Form';
-import H2 from 'components/H2';
 import Input from './Input';
-import List from 'components/List';
-import ListItem from 'components/ListItem';
-import LoadingIndicator from 'components/LoadingIndicator';
-import RepoListItem from 'containers/RepoListItem';
 import Section from './Section';
 import messages from './messages';
-import {
-  selectCurrentUser,
-} from 'containers/App/selectors';
-import Clock from 'containers/Clock';
 
 export class HomePage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   /**
@@ -53,25 +48,12 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
   };
 
   render() {
-    let mainContent = null;
-
-    const { loading, repos, error } = this.props.data;
-
-    // Show a loading indicator when we're loading
-    if (loading) {
-      mainContent = (<List component={LoadingIndicator} />);
-
-    // Show an error if there is one
-    } else if (error) {
-      const ErrorComponent = () => (
-        <ListItem item={'Something went wrong, please try again!'} />
-      );
-      mainContent = (<List component={ErrorComponent} />);
-
-    // If we're not loading, don't have an error and there are repos, show the repos
-    } else if (repos !== null) {
-      mainContent = (<List items={repos} component={RepoListItem} />);
-    }
+    const { loading, error, repos } = this.props.data;
+    const reposListProps = {
+      loading,
+      error,
+      repos,
+    };
 
     return (
       <article>
@@ -110,7 +92,7 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
                 />
               </label>
             </Form>
-            {mainContent}
+            <ReposList {...reposListProps} />
           </Section>
         </div>
       </article>
@@ -154,8 +136,8 @@ export function mapDispatchToProps(dispatch) {
 }
 
 const mapStateToProps = createStructuredSelector({
-  username: selectUsername(),
-  login: selectCurrentUser(),
+  username: makeSelectUsername(),
+  login: makeSelectCurrentUser(),
 });
 
 // Wrap the component to inject dispatch and state into it

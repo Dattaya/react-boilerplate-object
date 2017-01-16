@@ -1,23 +1,20 @@
-import expect from 'expect';
-
 import {
   selectGlobal,
-  selectCurrentUser,
+  makeSelectCurrentUser,
 } from '../selectors';
 
 describe('selectGlobal', () => {
-  const globalSelector = selectGlobal();
   it('should select the global state', () => {
     const globalState = {};
     const mockedState = {
       global: globalState,
     };
-    expect(globalSelector(mockedState)).toEqual(globalState);
+    expect(selectGlobal(mockedState)).toEqual(globalState);
   });
 });
 
-describe('selectCurrentUser', () => {
-  const currentUserSelector = selectCurrentUser();
+describe('makeSelectCurrentUser', () => {
+  const currentUserSelector = makeSelectCurrentUser();
   it('should select the current user', () => {
     const username = 'mxstbr';
     const mockedState = {

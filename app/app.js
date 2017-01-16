@@ -8,30 +8,40 @@
 // Needed for redux-saga es6 generator support
 import 'babel-polyfill';
 
-/* eslint-disable import/no-unresolved, import/extensions */
-// Load the favicon, the manifest.json file and the .htaccess file
-import 'file?name=[name].[ext]!./favicon.ico';
-import '!file?name=[name].[ext]!./manifest.json';
-import 'file?name=[name].[ext]!./.htaccess';
-/* eslint-enable import/no-unresolved, import/extensions */
-
 // Import all the third party stuff
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { ApolloProvider } from 'react-apollo';
+import apolloClient from 'apolloClient';
 import { applyRouterMiddleware, Router, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import FontFaceObserver from 'fontfaceobserver';
 import { useScroll } from 'react-router-scroll';
-import configureStore from './store';
-import { ApolloProvider } from 'react-apollo';
-import apolloClient from 'apolloClient';
+import 'sanitize.css/sanitize.css';
+
+// Import root app
+import App from 'containers/App';
 
 // Import Language Provider
 import LanguageProvider from 'containers/LanguageProvider';
 
+// Load the favicon, the manifest.json file and the .htaccess file
+/* eslint-disable import/no-webpack-loader-syntax */
+import '!file-loader?name=[name].[ext]!./favicon.ico';
+import '!file-loader?name=[name].[ext]!./manifest.json';
+import 'file-loader?name=[name].[ext]!./.htaccess'; // eslint-disable-line import/extensions
+/* eslint-enable import/no-webpack-loader-syntax */
+
+import configureStore from './store';
+
+// Import i18n messages
+import { translationMessages } from './i18n';
+
 // Import CSS reset and Global Styles
-import 'sanitize.css/sanitize.css';
 import './global-styles';
+
+// Import routes
+import createRoutes from './routes';
 
 // Observe loading of Open Sans (to remove open sans, remove the <link> tag in
 // the index.html file and this observer)
@@ -43,9 +53,6 @@ openSansObserver.load().then(() => {
 }, () => {
   document.body.classList.remove('fontLoaded');
 });
-
-// Import i18n messages
-import { translationMessages } from './i18n';
 
 // Create redux store with history
 // this uses the singleton browserHistory provided by react-router
@@ -60,8 +67,6 @@ const store = configureStore(initialState, browserHistory, apolloClient);
 const history = syncHistoryWithStore(browserHistory, store);
 
 // Set up the router, wrapping all Routes in the App component
-import App from 'containers/App';
-import createRoutes from './routes';
 const rootRoute = {
   component: App,
   childRoutes: createRoutes(store),
@@ -98,11 +103,11 @@ if (module.hot) {
 // Chunked polyfill for browsers without Intl support
 if (!window.Intl) {
   (new Promise((resolve) => {
-    resolve(System.import('intl'));
+    resolve(import('intl'));
   }))
     .then(() => Promise.all([
-      System.import('intl/locale-data/jsonp/en.js'),
-      System.import('intl/locale-data/jsonp/de.js'),
+      import('intl/locale-data/jsonp/en.js'),
+      import('intl/locale-data/jsonp/de.js'),
     ]))
     .then(() => render(translationMessages))
     .catch((err) => {
