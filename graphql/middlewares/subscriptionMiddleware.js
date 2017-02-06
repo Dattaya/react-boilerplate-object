@@ -9,6 +9,6 @@ module.exports = (server, schema) => {
 
   return new SubscriptionServer(
     { subscriptionManager },
-    server
+    { server }
   );
 };

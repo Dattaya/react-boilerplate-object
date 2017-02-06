@@ -1,8 +1,7 @@
 import ApolloClient, { createNetworkInterface } from 'apollo-client';
-import { Client } from 'subscriptions-transport-ws';
-import { print } from 'graphql-tag/printer';
+import { SubscriptionClient, addGraphQLSubscriptions } from 'subscriptions-transport-ws';
 
-const wsClient = new Client('ws://localhost:3000/graphql', { reconnect: true });
+const wsClient = new SubscriptionClient('ws://localhost:3000/graphql', { reconnect: true });
 
 const networkInterface = createNetworkInterface({
   uri: '/graphql',
@@ -11,17 +10,13 @@ const networkInterface = createNetworkInterface({
   },
 });
 
-networkInterface.subscribe = (request, handler) => wsClient.subscribe({
-  query: print(request.query),
-  variables: request.variables,
-}, handler);
-
-networkInterface.unsubscribe = (id) => {
-  wsClient.unsubscribe(id);
-};
+const networkInterfaceWithSubscriptions = addGraphQLSubscriptions(
+  networkInterface,
+  wsClient
+);
 
 const apollo = new ApolloClient({
-  networkInterface,
+  networkInterface: networkInterfaceWithSubscriptions,
 });
 
 export default apollo;
