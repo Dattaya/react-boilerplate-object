@@ -218,7 +218,7 @@
     "cross-env": "5.0.0",
     "express": "4.15.3",
     "fontfaceobserver": "2.0.9",
-    "immutability-helper": "2.0.0",
+    "immutability-helper": "2.4.0",
     "history": "4.6.3",
     "hoist-non-react-statics": "2.1.1",
     "intl": "1.2.5",
